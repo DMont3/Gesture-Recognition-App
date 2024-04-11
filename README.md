@@ -69,3 +69,28 @@ python nome_do_script.py PRECISA ALTERAR NOME
 ## Contribuições
 
 Contribuições são bem-vindas! Se você tem ideias ou melhorias, sinta-se à vontade para forkar o repositório e submeter um pull request.
+
+# Rubrica de Avaliação para o Projeto de Controle de Reprodução de Vídeo e Música com Gestos
+
+## Objetivo Geral
+Avaliar a implementação e eficácia de uma aplicação de Visão Computacional que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais.
+
+## Critérios de Avaliação
+
+### Funcionalidade (60 pontos)
+- **Implementação dos Gestos Básicos (25 pontos):** O sistema deve ser capaz de identificar e responder corretamente aos gestos básicos de pausar e despausar a reprodução.
+- **Funcionalidades Adicionais (10 pontos):** A aplicação deve incluir funcionalidades extras como ajuste de volume, mudança de faixa, e feedback visual.
+- **Precisão no Reconhecimento de Gestos (25 pontos):** A precisão com que o sistema reconhece os gestos manuais dos usuários.
+
+### Qualidade do Código (20 pontos)
+- **Organização e Estrutura (20 pontos):** Clareza, organização e estrutura do código-fonte, incluindo nomes de variáveis, comentários e documentação.
+
+### Documentação (20 pontos)
+- **Clareza (10 pontos):** Clareza da documentação do projeto, incluindo README, comentários no código e documentação de API.
+- **Instruções de Instalação e Uso (10 pontos):** Claridade e precisão das instruções de instalação e uso da aplicação.
+
+## Pontuação Total
+- **Excelente (90-100 pontos):** Atende ou excede todas as expectativas em todos os critérios.
+- **Bom (70-89 pontos):** Atende às expectativas na maioria dos critérios e excede em alguns.
+- **Satisfatório (50-69 pontos):** Atende às expectativas mínimas na maioria dos critérios.
+- **Insuficiente (0-49 pontos):** Não atende às expectativas mínimas em vários critérios.
