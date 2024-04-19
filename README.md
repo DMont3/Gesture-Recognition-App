@@ -18,7 +18,7 @@ Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacion
 ## Tecnologias Utilizadas
 
 - **OpenCV:** Para captura de imagem e reconhecimento de gestos.
-
+- **PyAutoGUI:** Para automação de tarefas de controle de mouse e teclado.
 
 ## Instruções de Instalação
 
