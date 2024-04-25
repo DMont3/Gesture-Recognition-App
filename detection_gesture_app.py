@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
-import pyautogui
 import time
+import pyautogui
 
 def inicia_mediapipe():
     mp_hands = mp.solutions.hands
@@ -24,6 +24,8 @@ def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
             current_time = time.time()
             if current_time - last_space_press_time >= intervalo_tempo:
                 print(f"Gesture Detected: {gesture} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
+                if gesture == "Legal":
+                    pyautogui.press('space')  # Simula a tecla de espaço para pausar o vídeo
                 last_space_press_time = current_time
 
             mp_draw.draw_landmarks(img, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
@@ -60,7 +62,6 @@ def identify_gesture(finger_positions):
         average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
         if index_tip_x < average_x:
             return "Legal"
-            pyautogui.press('space')
         else:
             return "Apontar Direita"
 
