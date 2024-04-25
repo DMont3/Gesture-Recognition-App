@@ -2,11 +2,13 @@ import cv2
 import mediapipe as mp
 import time
 
+
 def inicia_mediapipe():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
     mp_draw = mp.solutions.drawing_utils
     return hands, mp_draw
+
 
 def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
     img = cv2.flip(img, 1)  # Inverte a imagem
@@ -30,42 +32,31 @@ def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
 
     return img, gesture, last_space_press_time
 
+
 def get_finger_positions(img, hand_landmarks):
     h, w, c = img.shape
     finger_positions = [(id, int(lm.x * w), int(lm.y * h)) for id, lm in enumerate(hand_landmarks.landmark)]
     return finger_positions
 
+
 def identify_gesture(finger_positions):
-    # Acessa as coordenadas y de cada dedo relevante para verificar se estão estendidos
-    thumb_tip_y = finger_positions[4][2]
-    index_tip_y = finger_positions[8][2]
-    middle_tip_y = finger_positions[12][2]
-    ring_tip_y = finger_positions[16][2]
-    pinky_tip_y = finger_positions[20][2]
+    # Verifica se a mão está aberta e a orientação da palma
+    if is_hand_open(finger_positions):
+        thumb_tip_x = finger_positions[4][1]
+        thumb_cmc_x = finger_positions[1][1]
+        return "Mao Aberta"
 
-    # Bases dos dedos para verificar a mão aberta
-    index_base_y = finger_positions[5][2]
-    middle_base_y = finger_positions[9][2]
-    ring_base_y = finger_positions[13][2]
-    pinky_base_y = finger_positions[17][2]
 
-    # Verifica se todos os dedos estão estendidos (mão aberta)
-    if (index_tip_y < index_base_y and middle_tip_y < middle_base_y and
-        ring_tip_y < ring_base_y and pinky_tip_y < pinky_base_y and
-        thumb_tip_y < middle_base_y):  # Condição para o polegar também estar estendido
-        return "Mão Aberta"
-
-    # Condições para outros gestos
+    # Outras detecções de gestos
     thumb_tip_x = finger_positions[4][1]
     index_tip_x = finger_positions[8][1]
     middle_base_x = finger_positions[9][1]
     ring_base_x = finger_positions[13][1]
     pinky_base_x = finger_positions[17][1]
 
-
-    if thumb_tip_x < index_tip_x and pinky_tip_y < ring_tip_y:
+    if thumb_tip_x < index_tip_x and finger_positions[20][2] < finger_positions[16][2]:
         return "Apontar Esquerda"
-    elif index_tip_y < middle_tip_y and index_tip_y < ring_tip_y and index_tip_y < pinky_tip_y:
+    elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
         average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
         if index_tip_x < average_x:
             return "Legal"
@@ -73,6 +64,13 @@ def identify_gesture(finger_positions):
             return "Apontar Direita"
 
     return "Nao Definido"
+
+
+def is_hand_open(finger_positions):
+    # Checa se todos os dedos estão estendidos verificando se a ponta está acima da base para cada dedo
+    return all(finger_positions[i][2] < finger_positions[i - 3][2] for i in range(8, 21, 4)) and \
+        finger_positions[4][2] < finger_positions[2][2]  # Inclui o polegar
+
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -85,7 +83,8 @@ def main():
         if not success:
             continue
 
-        img, gesture, last_space_press_time = processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo)
+        img, gesture, last_space_press_time = processa_frame(img, hands, mp_draw, last_space_press_time,
+                                                             intervalo_tempo)
 
         cv2.imshow("Hand Tracking", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -93,6 +92,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     main()
