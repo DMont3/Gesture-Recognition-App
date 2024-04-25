@@ -36,24 +36,36 @@ def get_finger_positions(img, hand_landmarks):
 
 def identify_gesture(finger_positions):
     if is_hand_open(finger_positions):
-        thumb_tip_x = finger_positions[4][1]
-        thumb_cmc_x = finger_positions[1][1]
         return "Mao Aberta"
 
     index_tip = finger_positions[8]
+    middle_tip = finger_positions[12]
+    ring_tip = finger_positions[16]
+    pinky_tip = finger_positions[20]
+    thumb_tip = finger_positions[4]
     index_base = finger_positions[5]
-    other_fingers = [finger_positions[i] for i in [12, 16, 20]]
+    middle_base = finger_positions[9]
+    other_fingers = [ring_tip, pinky_tip]
+
+    # Detecção do gesto "V"
+    if index_tip[2] < index_base[2] and middle_tip[2] < middle_base[2] and \
+       all(finger_tip[2] > middle_base[2] for finger_tip in other_fingers):
+        return "V de Vitoria"
+
+    if thumb_tip[2] < finger_positions[2][2] and pinky_tip[2] < finger_positions[17][2] and \
+        index_tip[2] > index_base[2] and middle_tip[2] > middle_base[2] and ring_tip[2] > finger_positions[13][2]:
+        return "Hang Loose"
 
     if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in other_fingers):
         return "Indicador Para Cima"
 
-    thumb_tip_x = finger_positions[4][1]
-    index_tip_x = finger_positions[8][1]
-    middle_base_x = finger_positions[9][1]
-    ring_base_x = finger_positions[13][1]
-    pinky_base_x = finger_positions[17][1]
+    thumb_tip_x = thumb_tip[1]
+    index_tip_x = index_tip[1]
+    middle_base_x = middle_base[1]
+    ring_base_x = ring_tip[1]
+    pinky_base_x = pinky_tip[1]
 
-    if thumb_tip_x < index_tip_x and finger_positions[20][2] < finger_positions[16][2]:
+    if thumb_tip_x < index_tip_x and pinky_tip[2] < ring_tip[2]:
         return "Apontar Esquerda"
     elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
         average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
