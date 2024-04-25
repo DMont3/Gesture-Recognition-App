@@ -36,14 +36,26 @@ def get_finger_positions(img, hand_landmarks):
     return finger_positions
 
 def identify_gesture(finger_positions):
-    # Acessa as coordenadas y de cada dedo relevante
+    # Acessa as coordenadas y de cada dedo relevante para verificar se estão estendidos
     thumb_tip_y = finger_positions[4][2]
     index_tip_y = finger_positions[8][2]
     middle_tip_y = finger_positions[12][2]
     ring_tip_y = finger_positions[16][2]
     pinky_tip_y = finger_positions[20][2]
 
-    # Acessa as coordenadas x dos dedos para determinar gestos horizontais
+    # Bases dos dedos para verificar a mão aberta
+    index_base_y = finger_positions[5][2]
+    middle_base_y = finger_positions[9][2]
+    ring_base_y = finger_positions[13][2]
+    pinky_base_y = finger_positions[17][2]
+
+    # Verifica se todos os dedos estão estendidos (mão aberta)
+    if (index_tip_y < index_base_y and middle_tip_y < middle_base_y and
+        ring_tip_y < ring_base_y and pinky_tip_y < pinky_base_y and
+        thumb_tip_y < middle_base_y):  # Condição para o polegar também estar estendido
+        return "Mão Aberta"
+
+    # Condições para outros gestos
     thumb_tip_x = finger_positions[4][1]
     index_tip_x = finger_positions[8][1]
     middle_base_x = finger_positions[9][1]
@@ -51,9 +63,7 @@ def identify_gesture(finger_positions):
     pinky_base_x = finger_positions[17][1]
 
 
-    if index_tip_y < middle_tip_y and index_tip_y < ring_tip_y and middle_tip_y > ring_tip_y and ring_tip_y > pinky_tip_y:
-        return "Vitória"
-    elif thumb_tip_x < index_tip_x and pinky_tip_y < ring_tip_y:
+    if thumb_tip_x < index_tip_x and pinky_tip_y < ring_tip_y:
         return "Apontar Esquerda"
     elif index_tip_y < middle_tip_y and index_tip_y < ring_tip_y and index_tip_y < pinky_tip_y:
         average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
@@ -64,13 +74,11 @@ def identify_gesture(finger_positions):
 
     return "Nao Definido"
 
-
 def main():
     cap = cv2.VideoCapture(0)
     hands, mp_draw = inicia_mediapipe()
     last_space_press_time = 0
     intervalo_tempo = 2  # Intervalo em segundos para imprimir o gesto detectado
-
 
     while True:
         success, img = cap.read()
