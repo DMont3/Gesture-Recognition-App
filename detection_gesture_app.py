@@ -45,18 +45,24 @@ def identify_gesture(finger_positions):
     thumb_tip = finger_positions[4]
     index_base = finger_positions[5]
     middle_base = finger_positions[9]
-    other_fingers = [ring_tip, pinky_tip]
 
-    # Detecção do gesto "V"
+    # Detecção do gesto "V de Vitória"
     if index_tip[2] < index_base[2] and middle_tip[2] < middle_base[2] and \
-       all(finger_tip[2] > middle_base[2] for finger_tip in other_fingers):
+       all(finger_tip[2] > middle_base[2] for finger_tip in [ring_tip, pinky_tip]):
         return "V de Vitoria"
 
+    # Detecção do gesto "Hang Loose"
     if thumb_tip[2] < finger_positions[2][2] and pinky_tip[2] < finger_positions[17][2] and \
         index_tip[2] > index_base[2] and middle_tip[2] > middle_base[2] and ring_tip[2] > finger_positions[13][2]:
         return "Hang Loose"
 
-    if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in other_fingers):
+    # Detecção do gesto "Rock"
+    if index_tip[2] < index_base[2] and pinky_tip[2] < finger_positions[17][2] and \
+       middle_tip[2] > middle_base[2] and ring_tip[2] > middle_base[2]:
+        return "Rock"
+
+    # Detecção do gesto "Indicador Para Cima"
+    if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
         return "Indicador Para Cima"
 
     thumb_tip_x = thumb_tip[1]
@@ -65,6 +71,7 @@ def identify_gesture(finger_positions):
     ring_base_x = ring_tip[1]
     pinky_base_x = pinky_tip[1]
 
+    # Detecção de apontar para esquerda e direita
     if thumb_tip_x < index_tip_x and pinky_tip[2] < ring_tip[2]:
         return "Apontar Esquerda"
     elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
