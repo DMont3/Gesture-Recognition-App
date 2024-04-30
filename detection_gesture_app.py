@@ -79,6 +79,7 @@ def identify_gesture(finger_positions):
     if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
         return "Indicador Para Cima"
 
+    # Detecção do gesto "Indicador Para Baixo"
     if index_tip[2] > index_base[2] and all(finger_tip[2] < index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
     thumb_tip_x = thumb_tip[1]
     index_tip_x = index_tip[1]
