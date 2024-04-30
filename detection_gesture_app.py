@@ -1,6 +1,9 @@
 import cv2
 import mediapipe as mp
 import time
+import pyautogui
+
+
 
 def inicia_mediapipe():
     mp_hands = mp.solutions.hands
@@ -8,8 +11,8 @@ def inicia_mediapipe():
     mp_draw = mp.solutions.drawing_utils
     return hands, mp_draw
 
-def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
-    img = cv2.flip(img, 1)  # Inverte a imagem
+def processa_frame(img, hands, mp_draw, last_space_press_time, last_pointing_time, intervalo_tempo):
+    img = cv2.flip(img, 1) # Inverte a imagem
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     results = hands.process(img_rgb)
     gesture = "Nao Definido"
@@ -20,14 +23,25 @@ def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
             gesture = identify_gesture(finger_positions)
 
             current_time = time.time()
-            if current_time - last_space_press_time >= intervalo_tempo:
+            if gesture == "Mao Aberta" and current_time - last_space_press_time >= intervalo_tempo:
                 print(f"Gesture Detected: {gesture} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
                 last_space_press_time = current_time
+                pyautogui.press('space')
+            elif gesture == "Indicador Para Cima":
+                pyautogui.press('up')
+            elif gesture == "Indicador Para Baixo":
+                pyautogui.press('down')
+            elif gesture in ["Apontar Esquerda", "Apontar Direita"] and current_time - last_pointing_time >= 2:
+                last_pointing_time = current_time
+                if gesture == "Apontar Esquerda":
+                    pyautogui.press('left')
+                else:
+                    pyautogui.press('right')
 
             mp_draw.draw_landmarks(img, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
             cv2.putText(img, gesture, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
-    return img, gesture, last_space_press_time
+    return img, gesture, last_space_press_time, last_pointing_time
 
 def get_finger_positions(img, hand_landmarks):
     h, w, c = img.shape
@@ -65,13 +79,13 @@ def identify_gesture(finger_positions):
     if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
         return "Indicador Para Cima"
 
+    if index_tip[2] > index_base[2] and all(finger_tip[2] < index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
     thumb_tip_x = thumb_tip[1]
     index_tip_x = index_tip[1]
     middle_base_x = middle_base[1]
     ring_base_x = ring_tip[1]
     pinky_base_x = pinky_tip[1]
 
-    # Detecção de apontar para esquerda e direita
     if thumb_tip_x < index_tip_x and pinky_tip[2] < ring_tip[2]:
         return "Apontar Esquerda"
     elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
@@ -83,6 +97,7 @@ def identify_gesture(finger_positions):
 
     return "Nao Definido"
 
+
 def is_hand_open(finger_positions):
     return all(finger_positions[i][2] < finger_positions[i - 3][2] for i in range(8, 21, 4)) and \
            finger_positions[4][2] < finger_positions[2][2]
@@ -91,14 +106,15 @@ def main():
     cap = cv2.VideoCapture(0)
     hands, mp_draw = inicia_mediapipe()
     last_space_press_time = 0
-    intervalo_tempo = 2
+    last_pointing_time = 0
+    intervalo_tempo = 5
 
     while True:
         success, img = cap.read()
         if not success:
             continue
 
-        img, gesture, last_space_press_time = processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo)
+        img, gesture, last_space_press_time, last_pointing_time = processa_frame(img, hands, mp_draw, last_space_press_time, last_pointing_time, intervalo_tempo)
 
         cv2.imshow("Hand Tracking", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
