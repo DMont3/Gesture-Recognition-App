@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+import pyautogui
 import time
 
 def inicia_mediapipe():
@@ -36,6 +37,7 @@ def get_finger_positions(img, hand_landmarks):
 
 def identify_gesture(finger_positions):
     if is_hand_open(finger_positions):
+        pyautogui.press('k')  # Adicionado comando pyautogui
         return "Mao Aberta"
 
     index_tip = finger_positions[8]
@@ -46,23 +48,23 @@ def identify_gesture(finger_positions):
     index_base = finger_positions[5]
     middle_base = finger_positions[9]
 
-    # Detecção do gesto "V de Vitória"
     if index_tip[2] < index_base[2] and middle_tip[2] < middle_base[2] and \
        all(finger_tip[2] > middle_base[2] for finger_tip in [ring_tip, pinky_tip]):
-        return "V de Vitoria"
+        pyautogui.press('<')  # Adicionado comando pyautogui
+        return "V de Vitória"
 
-    # Detecção do gesto "Hang Loose"
     if thumb_tip[2] < finger_positions[2][2] and pinky_tip[2] < finger_positions[17][2] and \
         index_tip[2] > index_base[2] and middle_tip[2] > middle_base[2] and ring_tip[2] > finger_positions[13][2]:
+        pyautogui.press('>')  # Adicionado comando pyautogui
         return "Hang Loose"
 
-    # Detecção do gesto "Rock"
     if index_tip[2] < index_base[2] and pinky_tip[2] < finger_positions[17][2] and \
        middle_tip[2] > middle_base[2] and ring_tip[2] > middle_base[2]:
+        pyautogui.press('volumeup')  # Adicionado comando pyautogui
         return "Rock"
 
-    # Detecção do gesto "Indicador Para Cima"
     if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
+        pyautogui.press('m')  # Adicionado comando pyautogui
         return "Indicador Para Cima"
 
     thumb_tip_x = thumb_tip[1]
@@ -71,14 +73,16 @@ def identify_gesture(finger_positions):
     ring_base_x = ring_tip[1]
     pinky_base_x = pinky_tip[1]
 
-    # Detecção de apontar para esquerda e direita
     if thumb_tip_x < index_tip_x and pinky_tip[2] < ring_tip[2]:
+        pyautogui.press('j')  # Adicionado comando pyautogui
         return "Apontar Esquerda"
     elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
         average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
         if index_tip_x < average_x:
+            pyautogui.press('volumedown')  # Adicionado comando pyautogui
             return "Legal"
         else:
+            pyautogui.press('l')  # Adicionado comando pyautogui
             return "Apontar Direita"
 
     return "Nao Definido"

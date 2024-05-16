@@ -90,3 +90,13 @@ Avaliar a implementação e eficácia de uma aplicação de Visão Computacional
 - **Bom (70-89 pontos):** Atende às expectativas na maioria dos critérios e excede em alguns.
 - **Satisfatório (50-69 pontos):** Atende às expectativas mínimas na maioria dos critérios.
 - **Insuficiente (0-49 pontos):** Não atende às expectativas mínimas em vários critérios.
+
+
+pausar(k) = Mão Aberta
+desativa/ativa som = Indicador Para Cima
+Aumentar velocidade(>) = Hang Loose
+Diminuir velocidade(<) = V de Vitória
+avançar(j) = Apontar Esquerda
+avançar(l) = Apontar Direita
+aumenta volume(seta pra cima) = Rock
+diminui volume(seta pra baixo) = Legal
