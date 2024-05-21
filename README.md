@@ -7,11 +7,10 @@ Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacion
 
 ### Funcionalidades Principais
 
-- **Pausar:** Ao mostrar a palma da mão aberta, o usuário pode pausar a reprodução de vídeos ou músicas.
-- **Despausar:** Um gesto diferente permite que a reprodução seja retomada.???????????????????
+- **Pausar e Despausar:** Ao mostrar a palma da mão aberta, o usuário pode pausar a reprodução de vídeos ou músicas.
 - **Ajuste de Volume:**
     - O gesto de "rock", realizado com a mão, é responsável por aumentar o volume da reprodução.
-    - O gesto de "legal", realizado com a mão, é reposnsável por diminuir o volume da reprodução.
+    - O gesto de "legal", realizado com a mão, é responsável por diminuir o volume da reprodução.
     - Ao mostrar o dedo indicador voltado para cima, o som da reprodução é ativado/desativado.
 - **Velocidade da reprodução:**
     - O gesto de "Hang Loose", realizado com a mão, é responsável por acelerar a velocidade da reprodução.
@@ -99,12 +98,3 @@ Avaliar a implementação e eficácia de uma aplicação de Visão Computacional
 - **Satisfatório (50-69 pontos):** Atende às expectativas mínimas na maioria dos critérios.
 - **Insuficiente (0-49 pontos):** Não atende às expectativas mínimas em vários critérios.
 
-
-pausar(k) = Mão Aberta
-desativa/ativa som = Indicador Para Cima
-Aumentar velocidade(>) = Hang Loose
-Diminuir velocidade(<) = V de Vitória
-avançar(j) = Apontar Esquerda
-avançar(l) = Apontar Direita
-aumenta volume(seta pra cima) = Rock
-diminui volume(seta pra baixo) = Legal
