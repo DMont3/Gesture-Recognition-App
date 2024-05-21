@@ -7,10 +7,18 @@ Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacion
 
 ### Funcionalidades Principais
 
-- **Pausar:** Ao realizar um gesto pré-definido, o usuário pode pausar a reprodução de vídeos ou músicas.
-- **Despausar:** Um gesto diferente permite que a reprodução seja retomada.
-- **Ajuste de Volume:** Gestos específicos podem aumentar ou diminuir o volume da reprodução.
-- **Mudança de Faixa:** Deslizar a mão para a esquerda ou direita pode mudar para a faixa anterior ou seguinte, respectivamente.
+- **Pausar:** Ao mostrar a palma da mão aberta, o usuário pode pausar a reprodução de vídeos ou músicas.
+- **Despausar:** Um gesto diferente permite que a reprodução seja retomada.???????????????????
+- **Ajuste de Volume:**
+    - O gesto de "rock", realizado com a mão, é responsável por aumentar o volume da reprodução.
+    - O gesto de "legal", realizado com a mão, é reposnsável por diminuir o volume da reprodução.
+    - Ao mostrar o dedo indicador voltado para cima, o som da reprodução é ativado/desativado.
+- **Velocidade da reprodução:**
+    - O gesto de "Hang Loose", realizado com a mão, é responsável por acelerar a velocidade da reprodução.
+    - O gesto de "V", realizado com a mão, é responsável por desacelerar a velocidade da reprodução.
+- **Mudança de faixa:**
+    - Ao mostrar o dedo indicador voltado para a direita, a reprodução é avançada, mudando para a próxima reprodução.
+    - Ao mostrar o dedo indicador voltado para a esquerda, a reprodução é recuada, mudando para a reprodução anterior.
 
 
 (Nota: Este projeto está em desenvolvimento contínuo, e novas funcionalidades serão adicionadas à medida que avançarmos.)
