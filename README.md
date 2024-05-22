@@ -4,7 +4,7 @@
 
 ## Descrição do Projeto
 
-Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacional avançada que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais. Através do uso da câmera do dispositivo, é possível pausar, despausar e realizar outras funções de controle de mídia sem a necessidade de interagir diretamente com dispositivos físicos como teclado e mouse. Essa tecnologia oferece uma camada adicional de acessibilidade e conveniência, tornando-a particularmente valiosa para p...
+Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacional avançada que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais. Através do uso da câmera do dispositivo, é possível pausar, despausar e realizar outras funções de controle de mídia sem a necessidade de interagir diretamente com dispositivos físicos como teclado e mouse. Essa tecnologia oferece uma camada adicional de acessibilidade e conveniência, tornando-a particularmente valiosa para pessoas com dificuldades visuais, de mobilidade, ou qualquer pessoa que busque uma forma mais intuitiva e livre para interagir com seus dispositivos.
 
 ### Funcionalidades Principais
 
