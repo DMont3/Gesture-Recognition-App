@@ -39,8 +39,6 @@ Siga os passos abaixo para instalar e utilizar esta aplicação:
     pip install opencv-python mediapipe pyautogui
     ```
 
-    As dependências específicas podem variar conforme o projeto evolui. Para uma lista completa, consulte o arquivo `requirements.txt`.
-
 ## Configuração do Ambiente
 
 Antes de executar a aplicação, é necessário configurar o ambiente de desenvolvimento:
