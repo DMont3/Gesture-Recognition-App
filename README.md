@@ -1,16 +1,17 @@
+
 # cognitiveComputingCP2_3
 # Controle de Reprodução de Vídeo e Música com Gestos
 
 ## Descrição do Projeto
 
-Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacional avançada que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais. Através do uso da câmera do dispositivo, é possível pausar, despausar e realizar outras funções de controle de mídia sem a necessidade de interagir diretamente com dispositivos físicos como teclado e mouse. Essa tecnologia oferece uma camada adicional de acessibilidade e conveniência, tornando-a particularmente valiosa para pessoas com dificuldades visuais, de mobilidade, ou qualquer pessoa que busque uma forma mais intuitiva e livre para interagir com seus dispositivos.
+Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacional avançada que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais. Através do uso da câmera do dispositivo, é possível pausar, despausar e realizar outras funções de controle de mídia sem a necessidade de interagir diretamente com dispositivos físicos como teclado e mouse. Essa tecnologia oferece uma camada adicional de acessibilidade e conveniência, tornando-a particularmente valiosa para p...
 
 ### Funcionalidades Principais
 
 - **Pausar e Despausar:** Ao mostrar a palma da mão aberta, o usuário pode pausar a reprodução de vídeos ou músicas.
 - **Ajuste de Volume:**
     - O gesto de "rock", realizado com a mão, é responsável por aumentar o volume da reprodução.
-    - O gesto de "legal", realizado com a mão, é responsável por diminuir o volume da reprodução.
+    - O gesto de "3" (indicador, médio e anelar levantados), realizado com a mão, é responsável por diminuir o volume da reprodução.
     - Ao mostrar o dedo indicador voltado para cima, o som da reprodução é ativado/desativado.
 - **Velocidade da reprodução:**
     - O gesto de "Hang Loose", realizado com a mão, é responsável por acelerar a velocidade da reprodução.
@@ -18,7 +19,6 @@ Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacion
 - **Mudança de faixa:**
     - Ao mostrar o dedo indicador voltado para a direita, a reprodução é avançada, mudando para a próxima reprodução.
     - Ao mostrar o dedo indicador voltado para a esquerda, a reprodução é recuada, mudando para a reprodução anterior.
-
 
 (Nota: Este projeto está em desenvolvimento contínuo, e novas funcionalidades serão adicionadas à medida que avançarmos.)
 
@@ -36,7 +36,7 @@ Siga os passos abaixo para instalar e utilizar esta aplicação:
 2. **Instalação das Dependências:** O funcionamento do projeto depende de diversas bibliotecas. Utilize o gerenciador de pacotes pip para instalar o OpenCV e outras bibliotecas necessárias:
 
     ```bash
-    pip install opencv-python
+    pip install opencv-python mediapipe pyautogui
     ```
 
     As dependências específicas podem variar conforme o projeto evolui. Para uma lista completa, consulte o arquivo `requirements.txt`.
@@ -54,7 +54,7 @@ Antes de executar a aplicação, é necessário configurar o ambiente de desenvo
 
     Ative o ambiente virtual com:
 
-    - No Windows: `venv\Scripts\activate`
+    - No Windows: `venv\Scriptsctivate`
     - No Linux ou macOS: `source venv/bin/activate`
 
 3. **Instale as Dependências:** Com o ambiente virtual ativado, instale todas as dependências necessárias conforme mencionado acima.
@@ -64,7 +64,7 @@ Antes de executar a aplicação, é necessário configurar o ambiente de desenvo
 Para iniciar a aplicação, execute o script principal com o comando abaixo, certificando-se de que está no diretório do projeto:
 
 ```bash
-python nome_do_script.py PRECISA ALTERAR NOME
+python detection_gesture_app.py
 ```
 
 ### Interagindo com a Aplicação
@@ -84,17 +84,14 @@ Avaliar a implementação e eficácia de uma aplicação de Visão Computacional
 
 ## Critérios de Avaliação
 
-### Funcionalidade (90 pontos)
+### Funcionalidade (100 pontos)
 - **Implementação dos Gestos Básicos (40 pontos):** O sistema deve ser capaz de identificar e responder corretamente aos gestos básicos de pausar e despausar a reprodução.
-- **Funcionalidades Adicionais (20 pontos):** A aplicação deve incluir funcionalidades extras como mudança de faixa, e feedback visual.
-- **Implementação de movimentos não triviais (10 pontos):** A aplicação deve incluir movimentações circulares do dedos com o propósito de ajuste de volume.
+- **Funcionalidades Adicionais (20 pontos):** A aplicação deve incluir funcionalidades extras como ajuste de volume, mudança de faixa, controle de velocidade e feedback visual.
+- **Implementação de Movimentos Não Triviais (20 pontos):** A aplicação deve incluir gestos complexos, como o gesto de "3" para diminuir o volume e o gesto de "rock" para aumentar o volume.
 - **Precisão no Reconhecimento de Gestos (20 pontos):** A precisão com que o sistema reconhece os gestos manuais dos usuários.
-
-10
 
 ## Pontuação Total
 - **Excelente (90-100 pontos):** Atende ou excede todas as expectativas em todos os critérios.
 - **Bom (70-89 pontos):** Atende às expectativas na maioria dos critérios e excede em alguns.
 - **Satisfatório (50-69 pontos):** Atende às expectativas mínimas na maioria dos critérios.
 - **Insuficiente (0-49 pontos):** Não atende às expectativas mínimas em vários critérios.
-
