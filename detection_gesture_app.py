@@ -3,13 +3,27 @@ import mediapipe as mp
 import pyautogui
 import time
 
+# Define os intervalos de tempo específicos para cada gesto
+GESTURE_INTERVALS = {
+    "Apontar para Cima": 2.5,
+    "Apontar Esquerda": 1,
+    "Apontar Direita": 1,
+    "V de Vitória": 2.5,
+    "Hang Loose": 2.5,
+    "Rock": 0.5,
+    "3": 0.5,
+    "Mao Aberta": 2.5
+}
+
+GENERAL_INTERVAL = 1  # Intervalo geral entre gestos diferentes
+
 def inicia_mediapipe():
     mp_hands = mp.solutions.hands
     hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
     mp_draw = mp.solutions.drawing_utils
     return hands, mp_draw
 
-def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
+def processa_frame(img, hands, mp_draw, last_gesture_times, last_gesture_time):
     img = cv2.flip(img, 1)  # Inverte a imagem
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     results = hands.process(img_rgb)
@@ -21,14 +35,22 @@ def processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo):
             gesture = identify_gesture(finger_positions)
 
             current_time = time.time()
-            if current_time - last_space_press_time >= intervalo_tempo:
+            interval = GESTURE_INTERVALS.get(gesture, 2.5)
+            if gesture in last_gesture_times:
+                last_time = last_gesture_times[gesture]
+            else:
+                last_time = 0
+
+            if current_time - last_gesture_time >= GENERAL_INTERVAL and current_time - last_time >= interval:
+                execute_action(gesture)
+                last_gesture_times[gesture] = current_time
+                last_gesture_time = current_time
                 print(f"Gesture Detected: {gesture} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-                last_space_press_time = current_time
 
             mp_draw.draw_landmarks(img, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
             cv2.putText(img, gesture, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
-    return img, gesture, last_space_press_time
+    return img, gesture, last_gesture_time
 
 def get_finger_positions(img, hand_landmarks):
     h, w, c = img.shape
@@ -37,31 +59,41 @@ def get_finger_positions(img, hand_landmarks):
 
 def identify_gesture(finger_positions):
     if is_pointing_up(finger_positions):
-        pyautogui.press('volumemute')  # Desativa/Ativa som
         return "Apontar para Cima"
     elif is_pointing_left(finger_positions):
-        pyautogui.press('j')  # Avançar (esquerda)
         return "Apontar Esquerda"
     elif is_pointing_right(finger_positions):
-        pyautogui.press('l')  # Avançar (direita)
         return "Apontar Direita"
     elif is_victory(finger_positions):
-        pyautogui.press('<')  # Diminuir velocidade
         return "V de Vitória"
     elif is_hang_loose(finger_positions):
-        pyautogui.press('>')  # Aumentar velocidade
         return "Hang Loose"
     elif is_rock(finger_positions):
-        pyautogui.press('volumeup')  # Aumentar volume
         return "Rock"
     elif is_three(finger_positions):
-        pyautogui.press('volumedown')  # Diminuir volume
         return "3"
     elif is_hand_open(finger_positions):
-        pyautogui.press('k')  # Pausar
         return "Mao Aberta"
 
     return "Nao Definido"
+
+def execute_action(gesture):
+    if gesture == "Apontar para Cima":
+        pyautogui.press('volumemute')  # Desativa/Ativa som
+    elif gesture == "Apontar Esquerda":
+        pyautogui.press('j')  # Avançar (esquerda)
+    elif gesture == "Apontar Direita":
+        pyautogui.press('l')  # Avançar (direita)
+    elif gesture == "V de Vitória":
+        pyautogui.press('<')  # Diminuir velocidade
+    elif gesture == "Hang Loose":
+        pyautogui.press('>')  # Aumentar velocidade
+    elif gesture == "Rock":
+        pyautogui.press('volumeup')  # Aumentar volume
+    elif gesture == "3":
+        pyautogui.press('volumedown')  # Diminuir volume
+    elif gesture == "Mao Aberta":
+        pyautogui.press('k')  # Pausar
 
 def is_pointing_up(finger_positions):
     index_tip = finger_positions[8]
@@ -117,15 +149,15 @@ def is_hand_open(finger_positions):
 def main():
     cap = cv2.VideoCapture(0)
     hands, mp_draw = inicia_mediapipe()
-    last_space_press_time = 0
-    intervalo_tempo = 2.5
+    last_gesture_times = {}
+    last_gesture_time = 0
 
     while True:
         success, img = cap.read()
         if not success:
             continue
 
-        img, gesture, last_space_press_time = processa_frame(img, hands, mp_draw, last_space_press_time, intervalo_tempo)
+        img, gesture, last_gesture_time = processa_frame(img, hands, mp_draw, last_gesture_times, last_gesture_time)
 
         cv2.imshow("Hand Tracking", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
