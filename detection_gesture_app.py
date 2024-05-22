@@ -36,66 +36,89 @@ def get_finger_positions(img, hand_landmarks):
     return finger_positions
 
 def identify_gesture(finger_positions):
-    if is_hand_open(finger_positions):
-        pyautogui.press('k')  # Adicionado comando pyautogui
+    if is_pointing_up(finger_positions):
+        pyautogui.press('volumemute')  # Desativa/Ativa som
+        return "Apontar para Cima"
+    elif is_pointing_left(finger_positions):
+        pyautogui.press('j')  # Avançar (esquerda)
+        return "Apontar Esquerda"
+    elif is_pointing_right(finger_positions):
+        pyautogui.press('l')  # Avançar (direita)
+        return "Apontar Direita"
+    elif is_victory(finger_positions):
+        pyautogui.press('<')  # Diminuir velocidade
+        return "V de Vitória"
+    elif is_hang_loose(finger_positions):
+        pyautogui.press('>')  # Aumentar velocidade
+        return "Hang Loose"
+    elif is_rock(finger_positions):
+        pyautogui.press('volumeup')  # Aumentar volume
+        return "Rock"
+    elif is_three(finger_positions):
+        pyautogui.press('volumedown')  # Diminuir volume
+        return "3"
+    elif is_hand_open(finger_positions):
+        pyautogui.press('k')  # Pausar
         return "Mao Aberta"
 
+    return "Nao Definido"
+
+def is_pointing_up(finger_positions):
+    index_tip = finger_positions[8]
+    index_base = finger_positions[5]
+    other_tips = [finger_positions[i] for i in [12, 16, 20]]
+    return index_tip[2] < index_base[2] and all(tip[2] > index_base[2] for tip in other_tips)
+
+def is_pointing_left(finger_positions):
+    index_tip = finger_positions[8]
+    thumb_tip = finger_positions[4]
+    other_tips = [finger_positions[i] for i in [12, 16, 20]]
+    return index_tip[1] < thumb_tip[1] and all(tip[2] > finger_positions[5][2] for tip in other_tips)
+
+def is_pointing_right(finger_positions):
+    index_tip = finger_positions[8]
+    thumb_tip = finger_positions[4]
+    other_tips = [finger_positions[i] for i in [12, 16, 20]]
+    return index_tip[1] > thumb_tip[1] and all(tip[2] > finger_positions[5][2] for tip in other_tips)
+
+def is_victory(finger_positions):
+    index_tip = finger_positions[8]
+    middle_tip = finger_positions[12]
+    index_base = finger_positions[5]
+    middle_base = finger_positions[9]
+    other_tips = [finger_positions[i] for i in [16, 20]]
+    return index_tip[2] < index_base[2] and middle_tip[2] < middle_base[2] and all(tip[2] > middle_base[2] for tip in other_tips)
+
+def is_hang_loose(finger_positions):
+    thumb_tip = finger_positions[4]
+    pinky_tip = finger_positions[20]
+    other_tips = [finger_positions[i] for i in [8, 12, 16]]
+    return thumb_tip[2] < finger_positions[2][2] and pinky_tip[2] < finger_positions[17][2] and all(tip[2] > finger_positions[5][2] for tip in other_tips)
+
+def is_rock(finger_positions):
+    index_tip = finger_positions[8]
+    pinky_tip = finger_positions[20]
+    index_base = finger_positions[5]
+    middle_tip = finger_positions[12]
+    ring_tip = finger_positions[16]
+    return index_tip[2] < index_base[2] and pinky_tip[2] < finger_positions[17][2] and middle_tip[2] > finger_positions[9][2] and ring_tip[2] > finger_positions[13][2]
+
+def is_three(finger_positions):
     index_tip = finger_positions[8]
     middle_tip = finger_positions[12]
     ring_tip = finger_positions[16]
     pinky_tip = finger_positions[20]
     thumb_tip = finger_positions[4]
-    index_base = finger_positions[5]
-    middle_base = finger_positions[9]
-
-    if index_tip[2] < index_base[2] and middle_tip[2] < middle_base[2] and \
-       all(finger_tip[2] > middle_base[2] for finger_tip in [ring_tip, pinky_tip]):
-        pyautogui.press('<')  # Adicionado comando pyautogui
-        return "V de Vitória"
-
-    if thumb_tip[2] < finger_positions[2][2] and pinky_tip[2] < finger_positions[17][2] and \
-        index_tip[2] > index_base[2] and middle_tip[2] > middle_base[2] and ring_tip[2] > finger_positions[13][2]:
-        pyautogui.press('>')  # Adicionado comando pyautogui
-        return "Hang Loose"
-
-    if index_tip[2] < index_base[2] and pinky_tip[2] < finger_positions[17][2] and \
-       middle_tip[2] > middle_base[2] and ring_tip[2] > middle_base[2]:
-        pyautogui.press('volumeup')  # Adicionado comando pyautogui
-        return "Rock"
-
-    if index_tip[2] < index_base[2] and all(finger_tip[2] > index_base[2] for finger_tip in [middle_tip, ring_tip, pinky_tip]):
-        pyautogui.press('m')  # Adicionado comando pyautogui
-        return "Indicador Para Cima"
-
-    thumb_tip_x = thumb_tip[1]
-    index_tip_x = index_tip[1]
-    middle_base_x = middle_base[1]
-    ring_base_x = ring_tip[1]
-    pinky_base_x = pinky_tip[1]
-
-    if thumb_tip_x < index_tip_x and pinky_tip[2] < ring_tip[2]:
-        pyautogui.press('j')  # Adicionado comando pyautogui
-        return "Apontar Esquerda"
-    elif all(finger_positions[i][2] < finger_positions[i + 4][2] for i in range(5, 17, 4)):
-        average_x = (middle_base_x + ring_base_x + pinky_base_x) / 3
-        if index_tip_x < average_x:
-            pyautogui.press('volumedown')  # Adicionado comando pyautogui
-            return "Legal"
-        else:
-            pyautogui.press('l')  # Adicionado comando pyautogui
-            return "Apontar Direita"
-
-    return "Nao Definido"
+    return all(tip[2] < finger_positions[5][2] for tip in [index_tip, middle_tip, ring_tip]) and all(tip[2] > finger_positions[5][2] for tip in [pinky_tip, thumb_tip])
 
 def is_hand_open(finger_positions):
-    return all(finger_positions[i][2] < finger_positions[i - 3][2] for i in range(8, 21, 4)) and \
-           finger_positions[4][2] < finger_positions[2][2]
+    return all(finger_positions[i][2] < finger_positions[i - 3][2] for i in range(8, 21, 4)) and finger_positions[4][2] < finger_positions[2][2]
 
 def main():
     cap = cv2.VideoCapture(0)
     hands, mp_draw = inicia_mediapipe()
     last_space_press_time = 0
-    intervalo_tempo = 2
+    intervalo_tempo = 2.5
 
     while True:
         success, img = cap.read()
