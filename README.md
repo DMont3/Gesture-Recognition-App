@@ -26,7 +26,8 @@ Este projeto tem como objetivo desenvolver uma aplicação de Visão Computacion
 
 - **OpenCV:** Para captura de imagem e reconhecimento de gestos.
 - **PyAutoGUI:** Para automação de tarefas de controle de mouse e teclado.
-
+- **MediaPipe:** Para reconhecimento de gestos e outras tarefas de processamento de vídeo e imagem.
+  
 ## Instruções de Instalação
 
 Siga os passos abaixo para instalar e utilizar esta aplicação:
