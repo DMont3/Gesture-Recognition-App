@@ -72,25 +72,5 @@ python detection_gesture_app.py
 2. **Realize os Gestos:** Faça os gestos pré-definidos em frente à câmera para controlar a reprodução de sua mídia.
 3. **Ajuste Conforme Necessário:** Baseado no feedback visual, ajuste seus gestos para otimizar o reconhecimento pela aplicação.
 
-## Contribuições
-
-Contribuições são bem-vindas! Se você tem ideias ou melhorias, sinta-se à vontade para forkar o repositório e submeter um pull request.
-
-# Rubrica de Avaliação para o Projeto de Controle de Reprodução de Vídeo e Música com Gestos
-
 ## Objetivo Geral
 Avaliar a implementação e eficácia de uma aplicação de Visão Computacional que permite aos usuários controlar a reprodução de vídeo e música utilizando gestos manuais.
-
-## Critérios de Avaliação
-
-### Funcionalidade (100 pontos)
-- **Implementação dos Gestos Básicos (40 pontos):** O sistema deve ser capaz de identificar e responder corretamente aos gestos básicos de pausar e despausar a reprodução.
-- **Funcionalidades Adicionais (20 pontos):** A aplicação deve incluir funcionalidades extras como ajuste de volume, mudança de faixa, controle de velocidade e feedback visual.
-- **Implementação de Movimentos Não Triviais (20 pontos):** A aplicação deve incluir gestos complexos, como o gesto de "3" para diminuir o volume e o gesto de "rock" para aumentar o volume.
-- **Precisão no Reconhecimento de Gestos (20 pontos):** A precisão com que o sistema reconhece os gestos manuais dos usuários.
-
-## Pontuação Total
-- **Excelente (90-100 pontos):** Atende ou excede todas as expectativas em todos os critérios.
-- **Bom (70-89 pontos):** Atende às expectativas na maioria dos critérios e excede em alguns.
-- **Satisfatório (50-69 pontos):** Atende às expectativas mínimas na maioria dos critérios.
-- **Insuficiente (0-49 pontos):** Não atende às expectativas mínimas em vários critérios.
