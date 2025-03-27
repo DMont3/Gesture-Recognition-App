@@ -1,5 +1,3 @@
-
-# cognitiveComputingCP2_3
 # Controle de Reprodução de Vídeo e Música com Gestos
 
 ## Descrição do Projeto
